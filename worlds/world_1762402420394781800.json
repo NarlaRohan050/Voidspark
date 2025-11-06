@@ -1,0 +1,60 @@
+{
+  "id": "1762402420394781800",
+  "dimension": "2D",
+  "theme": "generic",
+  "aesthetic": "dark",
+  "rooms": [
+    {
+      "index": 1,
+      "type": "trap",
+      "desc": "A arrow trap, coated in strange residue."
+    },
+    {
+      "index": 2,
+      "type": "trap",
+      "desc": "A swinging axe, making a faint clicking sound nearby."
+    },
+    {
+      "index": 3,
+      "type": "rest",
+      "desc": "A stone bench, carved with ancient runes of peace."
+    },
+    {
+      "index": 4,
+      "type": "rest",
+      "desc": "A stone bench, echoing faint dripping sounds."
+    },
+    {
+      "index": 5,
+      "type": "trap",
+      "desc": "A collapsing floor, making a faint clicking sound nearby."
+    },
+    {
+      "index": 6,
+      "type": "loot",
+      "desc": "A ancient chest, hidden behind a loose wall stone."
+    },
+    {
+      "index": 7,
+      "type": "rest",
+      "desc": "A quiet alcove, surrounded by silence."
+    },
+    {
+      "index": 8,
+      "type": "combat",
+      "desc": "A orc waiting beside a flickering torch."
+    },
+    {
+      "index": 9,
+      "type": "loot",
+      "desc": "A forgotten relic, surrounded by gold coins."
+    }
+  ],
+  "seed": 1762402420394781800,
+  "current": 0,
+  "game_state": "exploring",
+  "party": null,
+  "log": [
+    "Spawned world: generic (dark) seed=1762402420394781800"
+  ]
+}
