@@ -1,16 +1,10 @@
+// vite.config.js (ESM - keep .js because package.json has "type":"module")
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
+  plugins: [react()],
   server: {
-    port: 5173,
-    proxy: {
-      "/generate": "http://localhost:8080",
-      "/party": "http://localhost:8080",
-      "/explore": "http://localhost:8080",
-      "/state": "http://localhost:8080",
-      "/worlds": "http://localhost:8080",
-      "/api": "http://localhost:8080",
-      "/sse": "http://localhost:8080"
-    }
+    port: 5173
   }
 });
