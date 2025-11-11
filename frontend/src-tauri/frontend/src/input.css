@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small theme helper visuals for Void Spark preview */
+:root {
+  --bg: #0b0b11;
+  --panel: #0f1720;
+  --muted: #94a3b8;
+}
+body {
+  background-color: var(--bg);
+  color: #e6eef6;
+}
