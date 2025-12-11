@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Void Spark — Dungeon Preview</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #eee;
+      font-family: "Courier New", monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin-top: 20px;
+      color: #6cf;
+    }
+    canvas {
+      background-color: #111;
+      border: 2px solid #333;
+      display: block;
+      margin: 30px auto;
+    }
+    #info {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #aaa;
+      min-height: 1.4em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌀 Void Spark — Dungeon Preview</h1>
+  <div id="info">Loading the latest generated world...</div>
+  <canvas id="worldCanvas" width="800" height="600"></canvas>
+  <script>
+    let lastWorld = null;
+    let rooms = [];
+    const info = document.getElementById("info");
+    const canvas = document.getElementById("worldCanvas");
+    const ctx = canvas.getContext("2d");
+
+    async function fetchLatestWorldName() {
+      const res = await fetch("/api/latest-world");
+      if (!res.ok) throw new Error("No latest world found");
+      const { latest } = await res.json();
+      return latest;
+    }
+
+    async function loadWorld(name) {
+      const res = await fetch(`/worlds/${name}?_=${Date.now()}`);
+      if (!res.ok) throw new Error("Cannot load " + name);
+      const world = await res.json();
+      info.textContent = `Loaded world: ${world.theme} (${world.aesthetic}), seed ${world.seed}`;
+      drawWorld(world);
+    }
+
+    function drawWorld(world) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const colors = {
+        combat: "#e74c3c",
+        loot: "#f1c40f",
+        trap: "#9b59b6",
+        rest: "#2ecc71",
+        default: "#95a5a6"
+      };
+      const margin = 60;
+      const spacingX = 100;
+      const spacingY = 80;
+      const cols = 4;
+      const radius = 20;
+      rooms = [];
+      world.rooms.forEach((room, i) => {
+        const x = margin + (i % cols) * spacingX;
+        const y = margin + Math.floor(i / cols) * spacingY;
+        const color = colors[room.type] || colors.default;
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = "#222";
+        ctx.stroke();
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "12px Courier New";
+        ctx.fillText(room.index, x - 5, y + 4);
+
+        rooms.push({
+          x: x,
+          y: y,
+          r: radius,
+          info: `${room.index}. ${room.desc} [${room.type}]`
+        });
+      });
+    }
+
+    canvas.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      let hovered = false;
+      for (const room of rooms) {
+        const dx = mx - room.x;
+        const dy = my - room.y;
+        if (Math.sqrt(dx * dx + dy * dy) < room.r) {
+          info.textContent = room.info;
+          hovered = true;
+          break;
+        }
+      }
+      if (!hovered) {
+        // Restore world info if not hovering
+        fetch(`/api/latest-world`)
+          .then(res => res.json())
+          .then(data => fetch(`/worlds/${data.latest}`))
+          .then(res => res.json())
+          .then(world => {
+            info.textContent = `Loaded world: ${world.theme} (${world.aesthetic}), seed ${world.seed}`;
+          })
+          .catch(() => {
+            info.textContent = "Hover over a room or waiting for world...";
+          });
+      }
+    });
+
+    async function autoUpdateLoop() {
+      try {
+        const latest = await fetchLatestWorldName();
+        if (latest !== lastWorld) {
+          console.log("New world detected:", latest);
+          lastWorld = latest;
+          await loadWorld(latest);
+        }
+      } catch (err) {
+        console.warn("Error checking latest world:", err.message);
+      }
+      setTimeout(autoUpdateLoop, 3000);
+    }
+
+    autoUpdateLoop();
+  </script>
+</body>
+</html>
