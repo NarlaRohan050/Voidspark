@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Void Spark — Live Preview</title>
+  <style>
+    body { background: #0d0d0d; color: #eee; font-family: monospace; text-align: center; margin: 0; padding: 16px; }
+    h1 { color: #6cf; margin-bottom: 8px; }
+    #meta { font-size: 14px; color: #aaa; margin-bottom: 12px; }
+    canvas { background: #111; border: 2px solid #333; display: block; margin: 12px auto; }
+    #info { font-size: 14px; margin-top: 8px; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <h1>Void Spark — Live Preview</h1>
+  <div id="meta">Loading...</div>
+  <div id="info">Loading world...</div>
+  <canvas id="worldCanvas" width="800" height="300"></canvas>
+  <script>
+    let currentWorld = null;
+    const canvas = document.getElementById('worldCanvas');
+    const ctx = canvas.getContext('2d');
+    const metaEl = document.getElementById('meta');
+    const infoEl = document.getElementById('info');
+
+    async function fetchLatestWorld() {
+      try {
+        const res = await fetch('/api/latest-world');
+        if (!res.ok) return null;
+        const { latest } = await res.json();
+        const worldRes = await fetch(`/data/worlds/${latest}`);
+        return worldRes.json();
+      } catch (e) {
+        console.warn("Fetch error:", e);
+        return null;
+      }
+    }
+
+    function drawWorld(world) {
+      if (!world) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const startX = 60, step = 70, y = 150;
+      for (let i = 0; i < world.rooms.length; i++) {
+        const room = world.rooms[i];
+        let color = '#666';
+        if (room.type === 'combat') color = 'crimson';
+        else if (room.type === 'loot') color = 'gold';
+        else if (room.type === 'trap') color = 'purple';
+        else if (room.type === 'rest') color = 'lime';
+        else color = '#6cf'; // generic
+
+        ctx.beginPath();
+        ctx.arc(startX + i * step, y, 20, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = world.current === i ? '#fff' : '#444';
+        ctx.lineWidth = world.current === i ? 3 : 1;
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(i+1, startX + i * step, y + 40);
+      }
+    }
+
+    let lastWorldId = null;
+    async function autoRefresh() {
+      const world = await fetchLatestWorld();
+      if (world && world.id !== lastWorldId) {
+        currentWorld = world;
+        lastWorldId = world.id;
+        drawWorld(world);
+        metaEl.innerHTML = `<strong>${world.adapter}</strong> • ${world.theme} • seed=${world.seed}<br>
+          Prompts: ${world.prompts.length} refinements`;
+        infoEl.textContent = `Loaded: ${world.theme}`;
+      } else if (world && world.current !== (currentWorld?.current || -1)) {
+        drawWorld(world);
+      }
+      setTimeout(autoRefresh, 2000);
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!currentWorld) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const startX = 60, step = 70, cy = 150;
+      for (let i = 0; i < currentWorld.rooms.length; i++) {
+        const cx = startX + i * step;
+        const dist = Math.hypot(x - cx, y - cy);
+        if (dist < 25) {
+          const room = currentWorld.rooms[i];
+          infoEl.textContent = `Node ${i+1}: ${room.type} — ${room.desc}`;
+          return;
+        }
+      }
+      infoEl.textContent = `${currentWorld.adapter} world — seed ${currentWorld.seed}`;
+    });
+
+    autoRefresh();
+  </script>
+</body>
+</html>

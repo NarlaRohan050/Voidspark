@@ -1,0 +1,62 @@
+{
+  "id": "1762926117940596800",
+  "adapter": "city",
+  "dimension": "2D",
+  "theme": "city",
+  "aesthetic": "dark",
+  "rooms": [
+    {
+      "index": 1,
+      "type": "loot",
+      "desc": "A fuel cell gleams faintly."
+    },
+    {
+      "index": 2,
+      "type": "loot",
+      "desc": "A ancient chest gleams faintly."
+    },
+    {
+      "index": 3,
+      "type": "trap",
+      "desc": "A security drone lies ahead."
+    },
+    {
+      "index": 4,
+      "type": "combat",
+      "desc": "A orc lurks nearby."
+    },
+    {
+      "index": 5,
+      "type": "combat",
+      "desc": "A goblin lurks nearby."
+    },
+    {
+      "index": 6,
+      "type": "combat",
+      "desc": "A slime lurks nearby."
+    },
+    {
+      "index": 7,
+      "type": "loot",
+      "desc": "A fuel cell gleams faintly."
+    },
+    {
+      "index": 8,
+      "type": "combat",
+      "desc": "A drone lurks nearby."
+    },
+    {
+      "index": 9,
+      "type": "combat",
+      "desc": "A goblin lurks nearby."
+    }
+  ],
+  "seed": 1762926117940596800,
+  "current": 0,
+  "game_state": "exploring",
+  "party": null,
+  "log": [
+    "World spawned: city (seed=1762926117940596800)"
+  ],
+  "prompts": []
+}

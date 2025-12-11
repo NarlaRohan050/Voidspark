@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Void Spark Preview</title></head>
+<body style="background:#000;color:#fff;font-family:monospace;text-align:center">
+<h2>🌀 Void Spark — Your World</h2>
+<pre id="json" style="text-align:left;max-width:800px;margin:20px auto;background:#000;padding:16px;border:1px solid #333;overflow:auto"></pre>
+<script>
+let world = null;
+async function load() {
+  try {
+    const { latest } = await (await fetch('/api/latest-world')).json();
+    world = await (await fetch(`/data/worlds/${latest}`)).json();
+    document.getElementById('json').textContent = JSON.stringify(world, null, 2);
+  } catch (e) {
+    document.getElementById('json').textContent = "No world yet";
+  }
+}
+setInterval(load, 2000); load();
+</script>
+</body>
+</html>

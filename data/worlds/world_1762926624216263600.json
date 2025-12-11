@@ -1,0 +1,67 @@
+{
+  "id": "1762926624216263600",
+  "adapter": "city",
+  "dimension": "2D",
+  "theme": "city",
+  "aesthetic": "dark",
+  "rooms": [
+    {
+      "index": 1,
+      "type": "loot",
+      "desc": "A crystal gleams faintly."
+    },
+    {
+      "index": 2,
+      "type": "loot",
+      "desc": "A fuel cell gleams faintly."
+    },
+    {
+      "index": 3,
+      "type": "trap",
+      "desc": "A collapsing floor lies ahead."
+    },
+    {
+      "index": 4,
+      "type": "trap",
+      "desc": "A security drone lies ahead."
+    },
+    {
+      "index": 5,
+      "type": "combat",
+      "desc": "A bandit lurks nearby."
+    },
+    {
+      "index": 6,
+      "type": "rest",
+      "desc": "A camp offers respite."
+    },
+    {
+      "index": 7,
+      "type": "loot",
+      "desc": "A data chip gleams faintly."
+    },
+    {
+      "index": 8,
+      "type": "loot",
+      "desc": "A data chip gleams faintly."
+    },
+    {
+      "index": 9,
+      "type": "trap",
+      "desc": "A security drone lies ahead."
+    },
+    {
+      "index": 10,
+      "type": "trap",
+      "desc": "A pitfall lies ahead."
+    }
+  ],
+  "seed": 1762926624216263600,
+  "current": 0,
+  "game_state": "exploring",
+  "party": null,
+  "log": [
+    "World spawned: city (seed=1762926624216263600)"
+  ],
+  "prompts": []
+}

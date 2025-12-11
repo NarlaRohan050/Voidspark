@@ -1,0 +1,62 @@
+{
+  "id": "1762926169221088000",
+  "adapter": "city",
+  "dimension": "2D",
+  "theme": "city",
+  "aesthetic": "dark",
+  "rooms": [
+    {
+      "index": 1,
+      "type": "trap",
+      "desc": "A pitfall lies ahead."
+    },
+    {
+      "index": 2,
+      "type": "trap",
+      "desc": "A collapsing floor lies ahead."
+    },
+    {
+      "index": 3,
+      "type": "loot",
+      "desc": "A ancient chest gleams faintly."
+    },
+    {
+      "index": 4,
+      "type": "loot",
+      "desc": "A ancient chest gleams faintly."
+    },
+    {
+      "index": 5,
+      "type": "combat",
+      "desc": "A warg lurks nearby."
+    },
+    {
+      "index": 6,
+      "type": "trap",
+      "desc": "A gas leak lies ahead."
+    },
+    {
+      "index": 7,
+      "type": "combat",
+      "desc": "A warg lurks nearby."
+    },
+    {
+      "index": 8,
+      "type": "rest",
+      "desc": "A bench offers respite."
+    },
+    {
+      "index": 9,
+      "type": "loot",
+      "desc": "A fuel cell gleams faintly."
+    }
+  ],
+  "seed": 1762926169221088000,
+  "current": 0,
+  "game_state": "exploring",
+  "party": null,
+  "log": [
+    "World spawned: city (seed=1762926169221088000)"
+  ],
+  "prompts": []
+}
